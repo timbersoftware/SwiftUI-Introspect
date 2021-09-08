@@ -151,6 +151,18 @@ extension View {
     public func introspectColorWell(customize: @escaping (UIColorWell) -> ()) -> some View {
         introspect(selector: TargetViewSelector.siblingContaining, customize: customize)
     }
+    
+    /// Finds a `UISearchController` from a `SwiftUI.View` with a `.searchable` modifier
+    @available(iOS 15.0, *)
+    @available(tvOS, unavailable)
+    public func introspectSearchController(customize: @escaping (UISearchController) -> ()) -> some View {
+        introspectNavigationController { navigationController in
+            let navigationBar = navigationController.navigationBar
+            if let searchController = navigationBar.topItem?.searchController {
+                customize(searchController)
+            }
+        }
+    }
 }
 #endif
 
